@@ -3,16 +3,15 @@ import TimeeBase from './base'
 class Clock extends TimeeBase {
   constructor(options) {
     super(options)
+    this.alarms = []
     this.start()
-    this.current = Date.UTC.now()
+    this._current = new Date()
   }
 
   start() {
     this.interval = setInterval(() => {
-      this.emit('tick', {
-        type: 'clock',
-        current: Date.UTC.now()
-      })
+      this._current = new Date()
+      this.emit('tick', this.current)
     }, 1000)
   }
 
@@ -20,9 +19,15 @@ class Clock extends TimeeBase {
     clearInterval(this.interval)
   }
 
-  // get current() {
-  //   // return this.current.
-  // }
+  setAlarm() {}
+
+  get current() {
+    return {
+      type: 'clock',
+      current: this._current,
+      alarms: this.alarms
+    }
+  }
 }
 
 export default Clock
