@@ -25,7 +25,7 @@ export default [
 
   {
     input: 'src/index.js',
-    external: ['events'],
+    external: ['events', 'dayjs'],
     output: [
       { file: pkg.main, format: 'cjs' },
       { file: pkg.module, format: 'es' }
