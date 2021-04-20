@@ -1,12 +1,18 @@
 import TimeeBase from './base'
+import duration from 'dayjs/plugin/duration'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import dayjs from 'dayjs'
+
+dayjs.extend(duration)
+dayjs.extend(relativeTime)
 
 const defaultOptions = {
-  rate: 1000,
-  paused: true
+  paused: false,
+  rate: [1, 1000]
 }
 
 class RateTicker extends TimeeBase {
-  constructor(options) {
+  constructor(options = {}) {
     super()
     this.options = {
       ...defaultOptions,
@@ -14,36 +20,75 @@ class RateTicker extends TimeeBase {
     }
     this.rate = this.options.rate
     this.paused = this.options.paused
+    this._current = dayjs.duration(0)
     this.startDateTime = null
-    this.pauseAccumulator = 0
   }
 
+  _validateRate() {}
+
   start() {
-    console.error('Start not implemented')
+    this.startDateTime = dayjs()
+    this.interval = setInterval(this._startInterval.bind(this), this.effectiveRate)
+  }
+
+  _startInterval() {
+    if (!this.paused) {
+      this._current = this._current.add(this.effectiveRate, 'milliseconds')
+    }
+    this.emit('tick', this.current)
   }
 
   stop() {
-    console.error('Stop not implemented')
+    clearInterval(this.interval)
   }
 
   pause() {
-    console.error('Pause not implemented')
+    this.paused = !this.paused
   }
 
   reset() {
-    console.error('Reset not implemented')
+    this._current = dayjs.duration(0)
   }
 
-  get accumulated() {
-    const now = joda.LocalDateTime.now(joda.ZoneOffset.UTC)
-    const accumulatedStart = this.startDateTime || now
-    return now - accumulatedStart - this.pauseAccumulator
+  increaseRate() {
+    this.rate = [this.rate[0], this.rate[1] - 100]
+    clearInterval(this.interval)
+    this.interval = setInterval(this._startInterval.bind(this), this.effectiveRate)
+  }
+
+  decreaseRate() {
+    this.rate = [this.rate[0], this.rate[1] + 100]
+    clearInterval(this.interval)
+    this.interval = setInterval(this._startInterval.bind(this), this.effectiveRate)
+  }
+
+  get effectiveRate() {
+    return Math.floor(this.rate[1] / this.rate[0])
+  }
+
+  get perSecond() {
+    return (1000 / this.effectiveRate).toFixed(1)
   }
 
   get elapsed() {
-    const now = joda.LocalDateTime.now(joda.ZoneOffset.UTC)
-    const accumulatedStart = this.startDateTime || now
-    return now - accumulatedStart
+    if (!this.startDateTime) return null
+    return this._current
+  }
+
+  get accumulated() {
+    if (!this.startDateTime) return null
+    const now = dayjs()
+    return dayjs.duration(now - this.startDateTime, 'milliseconds')
+  }
+
+  get current() {
+    return {
+      elapsed: this.elapsed.format('HH:mm:ss'),
+      accumulated: this.accumulated.format('HH:mm:ss'),
+      effectiveRate: this.effectiveRate,
+      perSecond: this.perSecond,
+      paused: this.paused
+    }
   }
 }
 

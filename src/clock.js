@@ -1,4 +1,5 @@
 import TimeeBase from './base'
+import dayjs from 'dayjs'
 
 class Clock extends TimeeBase {
   constructor(options) {
@@ -10,7 +11,7 @@ class Clock extends TimeeBase {
 
   start() {
     this.interval = setInterval(() => {
-      this._current = new Date()
+      this._current = dayjs()
       this.emit('tick', this.current)
     }, 1000)
   }

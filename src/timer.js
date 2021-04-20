@@ -18,20 +18,17 @@ class Timer extends TimeeBase {
       ...defaultOptions,
       ...options
     }
-    this.rate = 1000
+    this.rate = this.options.rate
     this.paused = this.options.paused
     this._current = dayjs.duration(0)
     this.startDateTime = null
-    this.pauseAccumulator = 0
     this.laps = []
   }
 
   start() {
     this.startDateTime = dayjs()
     this.interval = setInterval(() => {
-      if (this.paused) {
-        this.pauseAccumulator += this.rate
-      } else {
+      if (!this.paused) {
         this._current = this._current.add(this.rate, 'milliseconds')
       }
       this.emit('tick', this.current)
@@ -50,13 +47,19 @@ class Timer extends TimeeBase {
     this._current = this.duration
   }
 
-  get accumulated() {
-    const now = new Date()
-    const accumulatedStart = this.startDateTime || now
-    return now - accumulatedStart - this.pauseAccumulator
+  lap() {
+    if (!this.startDateTime) return null
+    if (this.paused) return null
+    this.laps.push(this._current)
   }
 
   get elapsed() {
+    if (!this.startDateTime) return null
+    if (this.completed) return this.duration
+    return this._current
+  }
+
+  get accumulated() {
     if (!this.startDateTime) return null
     const now = dayjs()
     return dayjs.duration(now - this.startDateTime, 'milliseconds')
@@ -64,8 +67,9 @@ class Timer extends TimeeBase {
 
   get current() {
     return {
-      elapsed: this.elapsed.format(),
-      accumulated: dayjs.duration(this.pauseAccumulator, 'milliseconds').format(),
+      elapsed: this.elapsed.format('HH:mm:ss.SSS'),
+      accumulated: this.accumulated.format('HH:mm:ss.SSS'),
+      laps: this.laps.map(l => l.format('HH:mm:ss.SSS')),
       paused: this.paused
     }
   }

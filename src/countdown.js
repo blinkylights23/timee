@@ -31,15 +31,12 @@ class Countdown extends TimeeBase {
     this.duration = dayjs.duration(this.options.duration)
     this._current = dayjs.duration(this.options.duration)
     this.startDateTime = null
-    this.pauseAccumulator = 0
   }
 
   start() {
     this.startDateTime = dayjs()
     this.interval = setInterval(() => {
-      if (this.paused) {
-        this.pauseAccumulator += this.rate
-      } else {
+      if (!this.paused) {
         this._current = this._current.subtract(this.rate, 'milliseconds')
       }
       this.emit('tick', this.current)
@@ -61,9 +58,7 @@ class Countdown extends TimeeBase {
   get elapsed() {
     if (!this.startDateTime) return null
     if (this.completed) return this.duration
-    const now = dayjs()
-    const accumulated = dayjs.duration(now - this.startDateTime, 'milliseconds')
-    return accumulated.subtract(this.pauseAccumulator, 'milliseconds')
+    return this.duration.subtract(this._current)
   }
 
   get remaining() {
