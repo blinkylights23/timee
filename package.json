@@ -1,5 +1,5 @@
 {
-  "name": "timee",
+  "name": "@paulsmith/timee",
   "version": "0.0.1",
   "description": "Timer Event Emitter",
   "main": "dist/timee.cjs.js",
