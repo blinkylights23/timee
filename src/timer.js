@@ -67,9 +67,9 @@ class Timer extends TimeeBase {
 
   get current() {
     return {
-      elapsed: this.elapsed.format('HH:mm:ss.SSS'),
-      accumulated: this.accumulated.format('HH:mm:ss.SSS'),
-      laps: this.laps.map(l => l.format('HH:mm:ss.SSS')),
+      elapsed: this.elapsed,
+      accumulated: this.accumulated,
+      laps: this.laps,
       paused: this.paused
     }
   }

@@ -79,10 +79,10 @@ class Countdown extends TimeeBase {
 
   get current() {
     return {
-      duration: this.duration.format(),
-      elapsed: this.elapsed.format(),
-      remaining: this.remaining.format(),
-      accumulated: this.accumulated.format(),
+      duration: this.duration,
+      elapsed: this.elapsed,
+      remaining: this.remaining,
+      accumulated: this.accumulated,
       paused: this.paused,
       completed: this.completed
     }

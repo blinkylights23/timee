@@ -83,8 +83,8 @@ class RateTicker extends TimeeBase {
 
   get current() {
     return {
-      elapsed: this.elapsed.format('HH:mm:ss'),
-      accumulated: this.accumulated.format('HH:mm:ss'),
+      elapsed: this.elapsed,
+      accumulated: this.accumulated,
       effectiveRate: this.effectiveRate,
       perSecond: this.perSecond,
       paused: this.paused
