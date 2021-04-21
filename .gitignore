@@ -9,6 +9,7 @@
 .vscode
 [._]*.sw[a-p]
 tags
+*.code-workspace
 
 # dist/
 build/

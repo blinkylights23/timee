@@ -40,6 +40,9 @@ class Countdown extends TimeeBase {
         this._current = this._current.subtract(this.rate, 'milliseconds')
       }
       this.emit('tick', this.current)
+      if (this.completed) {
+        this.emit('completed')
+      }
     }, this.rate)
   }
 
