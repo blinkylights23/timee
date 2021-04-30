@@ -2,6 +2,18 @@
   "name": "@paulsmith/timee",
   "version": "0.0.1",
   "description": "Timer Event Emitter",
+  "keywords": [
+    "emitter",
+    "events",
+    "event",
+    "eventemitter",
+    "dayjs",
+    "date",
+    "time",
+    "timer",
+    "countdown",
+    "stopwatch"
+  ],
   "main": "dist/timee.cjs.js",
   "module": "dist/timee.esm.js",
   "browser": "dist/timee.umd.js",

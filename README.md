@@ -30,7 +30,7 @@ Give a duration, a `Countdown` will emit a `tick` event once per second, and a `
 
 Each tick provides an object that contains:
 
-```json
+```
 {
   "duration": DayJSObj, // The original duration
   "elapsed": DayJSObj, // Non-paused time elapsed
