@@ -6,8 +6,8 @@ jest.useFakeTimers()
 
 describe('Timer', () => {
   test('should construct a EventEmitter instance', () => {
-    const clock = new Timer()
-    expect(clock).toBeInstanceOf(EventEmitter)
+    const timer = new Timer()
+    expect(timer).toBeInstanceOf(EventEmitter)
   })
   test('should emit a tick after one second', () => {
     const timer = new Timer()
