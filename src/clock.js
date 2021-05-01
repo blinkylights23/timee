@@ -4,7 +4,6 @@ import dayjs from 'dayjs'
 class Clock extends TimeeBase {
   constructor(options) {
     super(options)
-    this.alarms = []
     this.start()
     this._current = new Date()
   }
@@ -20,13 +19,10 @@ class Clock extends TimeeBase {
     clearInterval(this.interval)
   }
 
-  setAlarm() {}
-
   get current() {
     return {
       type: 'clock',
-      current: this._current,
-      alarms: this.alarms
+      current: this._current
     }
   }
 }
