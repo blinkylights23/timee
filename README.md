@@ -26,7 +26,7 @@ clock.on('tick', tick => {
 
 ## Countdown
 
-Give a duration, a `Countdown` will emit a `tick` event once per second, and a `completed` event after the duration has elapsed. A `Countdown` can toggle a paused/unpaused state by calling the `pause()` method. The emitter will continue to emit events even after the duration has expired. I can be stopped with the `stop()` method.
+Give a duration, a `Countdown` will emit a `tick` event once per second, and a `completed` event after the duration has elapsed. A `Countdown` can toggle a paused/unpaused state by calling the `pause()` method. The emitter will continue to emit events even after the duration has expired. It can be stopped with the `stop()` method.
 
 Each tick provides an object that contains:
 
@@ -77,4 +77,103 @@ process.stdin.resume()
 
 ## Timer
 
+A `Timer` will emit a `tick` event once per second (or at a rate determined by the rate passed to the constructor). It can toggle a paused/unpaused state by calling the `pause()` method. You can accumulate an array of time marker durations by calling the `lap()` method. It can be stopped with the `stop()` method.
+
+Each tick provides an object that contains:
+
+```
+{
+  "type": "timer",
+  "elapsed": DayJSObj, // Non-paused time elapsed
+  "accumulated": DayJSObj, // Time since start(), including time while paused
+  "paused": Boolean, // Whether the Timer is currently paused
+  "laps": [
+    DayJSObj,
+    DayJSObj
+  ]
+}
+```
+
+```javascript
+import { Timer } from '../dist/timee.esm.js'
+import keypress from 'keypress'
+
+keypress(process.stdin)
+
+const timer = new Timer({ rate: 100 })
+timer.start()
+
+timer.on('tick', tick => {
+  console.log({
+    elapsed: tick.elapsed.format(),
+    accumulated: tick.accumulated.format(),
+    laps: tick.laps.map(l => l.format()),
+    paused: tick.paused
+  })
+})
+
+process.stdin.on('keypress', (ch, key) => {
+  console.log('got "keypress"', ch, key)
+  if (key && key.name == 'space') {
+    timer.pause()
+  }
+  if (key && key.name == 'l') {
+    timer.lap()
+  }
+  if (key && key.ctrl && key.name == 'c') {
+    process.exit(0)
+  }
+})
+
+process.stdin.setRawMode(true)
+process.stdin.resume()
+```
+
 ## RateTicker
+
+A `RateTicker` will emit `tick` at a rate specified in the constructor. It can toggle a paused/unpaused state by calling the `pause()` method. You can increase and decrease the tick rate with the `increaseRate()` and `decreaseRate()` methods. It can be stopped with the `stop()` method.
+
+Each tick provides an object that contains:
+
+```
+{
+  "type": "rateticker",
+  "elapsed": DayJSObj, // Non-paused time elapsed
+  "accumulated": DayJSObj, // Time since start(), including time while paused
+  "paused": Boolean, // Whether the Timer is currently paused
+  "effectiveRate": 2000, // Tick once every 2000ms
+  "perSecond": 0.5 // Ticks per second
+}
+```
+
+```javascript
+import { RateTicker } from '../dist/timee.esm.js'
+import keypress from 'keypress'
+
+keypress(process.stdin)
+
+const timer = new RateTicker({ rate: [1, 1000] })
+timer.start()
+
+timer.on('tick', tick => {
+  console.log(tick)
+})
+
+process.stdin.on('keypress', (ch, key) => {
+  if (key && key.name == 'space') {
+    timer.pause()
+  }
+  if (key && key.name == 'up') {
+    timer.increaseRate()
+  }
+  if (key && key.name == 'down') {
+    timer.decreaseRate()
+  }
+  if (key && key.ctrl && key.name == 'c') {
+    process.exit(0)
+  }
+})
+
+process.stdin.setRawMode(true)
+process.stdin.resume()
+```
