@@ -44,7 +44,7 @@ class Timer extends TimeeBase {
   }
 
   reset() {
-    this._current = this.duration
+    this._current = dayjs.duration(0)
   }
 
   lap() {
@@ -67,6 +67,7 @@ class Timer extends TimeeBase {
 
   get current() {
     return {
+      type: 'timer',
       elapsed: this.elapsed,
       accumulated: this.accumulated,
       laps: this.laps,

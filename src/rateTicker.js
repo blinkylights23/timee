@@ -83,6 +83,7 @@ class RateTicker extends TimeeBase {
 
   get current() {
     return {
+      type: 'rateticker',
       elapsed: this.elapsed,
       accumulated: this.accumulated,
       effectiveRate: this.effectiveRate,
