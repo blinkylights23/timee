@@ -1,6 +1,6 @@
 {
   "name": "@paulsmith/timee",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Timer Event Emitter",
   "keywords": [
     "emitter",
