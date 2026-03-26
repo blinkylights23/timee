@@ -8,8 +8,8 @@ This package provides a set of tools for keeping time in JavaScript. There's a `
 
 ## Installing
 
-```
-$ npm install @paulsmith/timee
+```bash
+npm install @paulsmith/timee
 ```
 
 ## Clock
@@ -95,7 +95,7 @@ Each tick provides an object that contains:
 ```
 
 ```javascript
-import { Timer } from '../dist/timee.esm.js'
+import { Timer } from '@paulsmith/timee'
 import keypress from 'keypress'
 
 keypress(process.stdin)
@@ -147,7 +147,7 @@ Each tick provides an object that contains:
 ```
 
 ```javascript
-import { RateTicker } from '../dist/timee.esm.js'
+import { RateTicker } from '@paulsmith/timee'
 import keypress from 'keypress'
 
 keypress(process.stdin)
