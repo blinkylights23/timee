@@ -1,5 +1,5 @@
-import TimeeBase from './base'
 import dayjs from 'dayjs'
+import TimeeBase from './base'
 
 class Clock extends TimeeBase {
   constructor(options) {

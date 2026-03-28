@@ -1,7 +1,7 @@
-import TimeeBase from './base'
+import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import dayjs from 'dayjs'
+import TimeeBase from './base'
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
