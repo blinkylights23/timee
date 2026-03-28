@@ -1,6 +1,6 @@
 import Clock from './clock'
 import Countdown from './countdown'
-import Timer from './timer'
 import RateTicker from './rateTicker'
+import Timer from './timer'
 
-export { Clock, Countdown, Timer, RateTicker }
+export { Clock, Countdown, RateTicker, Timer }

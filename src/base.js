@@ -1,9 +1,5 @@
-import EventEmitter from 'events'
+import EventEmitter from 'node:events'
 
-class TimeeBase extends EventEmitter {
-  constructor() {
-    super()
-  }
-}
+class TimeeBase extends EventEmitter {}
 
 export default TimeeBase
